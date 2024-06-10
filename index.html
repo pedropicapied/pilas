@@ -1,0 +1,387 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo sobre Baterías</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+    body {
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
+    background-color: #f0f0f0;
+    color: #333;
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+header {
+    background: linear-gradient(to right, #008080, #20b2aa);
+    padding: 1rem 2rem;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: background 0.3s;
+}
+
+header:hover {
+    background: linear-gradient(to right, #20b2aa, #008080);
+}
+
+.logo {
+    font-size: 1.8rem;
+    font-weight: bold;
+}
+
+nav {
+    position: relative;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    margin: 0 1rem;
+    font-weight: bold;
+    position: relative;
+    transition: color 0.3s ease-in-out;
+}
+
+nav a::before {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: -4px;
+    left: 0;
+    background-color: white;
+    transition: width 0.3s ease-in-out;
+}
+
+nav a:hover {
+    color: #ffd700;
+}
+
+nav a:hover::before {
+    width: 100%;
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+}
+
+nav ul li {
+    position: relative;
+}
+
+nav ul li ul {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: #008080;
+    border-radius: 5px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+}
+
+nav ul li ul li {
+    width: 200px;
+}
+
+nav ul li:hover ul {
+    display: block;
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+nav ul li ul li a {
+    display: block;
+    padding: 0.5rem 1rem;
+    transition: background 0.3s ease-in-out;
+}
+
+nav ul li ul li a:hover {
+    background: #20b2aa;
+}
+
+.hero {
+    background-image: url('https://source.unsplash.com/1600x900/?batteries,energy');
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    text-align: center;
+    animation: fadeIn 2s ease-in;
+}
+
+.hero h1 {
+    font-size: 4rem;
+    margin: 0;
+    animation: slideInFromLeft 1s ease-out;
+}
+
+.hero p {
+    font-size: 1.5rem;
+    margin: 1rem 0;
+    animation: slideInFromRight 1s ease-out;
+}
+
+.hero button {
+    padding: 1rem 2rem;
+    font-size: 1rem;
+    color: white;
+    background-color: #008080;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s, transform 0.3s;
+    animation: fadeIn 2s ease-in;
+}
+
+.hero button:hover {
+    background-color: #20b2aa;
+    transform: scale(1.05);
+}
+
+.types, .usage, .testimonials, .contact {
+    padding: 2rem;
+    text-align: center;
+    max-width: 1200px;
+    margin: auto;
+}
+
+.types h2, .usage h2, .testimonials h2, .contact h2 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    position: relative;
+}
+
+.types h2::after, .usage h2::after, .testimonials h2::after, .contact h2::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: -10px;
+    transform: translateX(-50%);
+    width: 50px;
+    height: 2px;
+    background: #008080;
+    transition: width 0.3s;
+}
+
+.types h2:hover::after, .usage h2:hover::after, .testimonials h2:hover::after, .contact h2:hover::after {
+    width: 100px;
+}
+
+.type, .usage-tip, .testimonial {
+    background: white;
+    padding: 1.5rem;
+    margin: 1rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.type:hover, .usage-tip:hover, .testimonial:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+}
+
+.contact form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.contact input, .contact textarea {
+    width: 80%;
+    padding: 0.75rem;
+    margin: 0.5rem 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.contact input:focus, .contact textarea:focus {
+    border-color: #008080;
+    box-shadow: 0 0 5px rgba(0, 128, 128, 0.5);
+}
+
+.contact button {
+    padding: 1rem 2rem;
+    font-size: 1rem;
+    color: white;
+    background-color: #008080;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.contact button:hover {
+    background-color: #20b2aa;
+    transform: scale(1.05);
+}
+
+footer {
+    background: #333;
+    color: white;
+    padding: 1rem;
+    text-align: center;
+    position: relative;
+}
+
+footer::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: -10px;
+    transform: translateX(-50%);
+    width: 50px;
+    height: 2px;
+    background: #008080;
+    transition: width 0.3s;
+}
+
+footer:hover::after {
+    width: 100px;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideInFromLeft {
+    from { transform: translateX(-100%); }
+    to { transform: translateX(0); }
+}
+
+@keyframes slideInFromRight {
+    from { transform: translateX(100%); }
+    to { transform: translateX(0); }
+}
+
+    </style>
+</head>
+<script>
+    $(document).ready(function(){
+        // Suave desplazamiento a las secciones
+        $('nav a').click(function(e) {
+            e.preventDefault();
+            $('html, body').animate({
+                scrollTop: $($(this).attr('href')).offset().top
+            }, 500);
+        });
+
+        // Mostrar y ocultar submenús
+        $('nav ul li').hover(function() {
+            $(this).find('ul').stop(true, true).slideDown(200);
+        }, function() {
+            $(this).find('ul').stop(true, true).slideUp(200);
+        });
+
+        // Efecto del botón en la sección hero
+        $('.hero button').click(function() {
+            $('html, body').animate({
+                scrollTop: $('#types').offset().top
+            }, 500);
+        });
+    });
+</script>
+</head>
+<body>
+<header>
+    <div class="logo">Todo sobre Baterías</div>
+    <nav>
+        <ul>
+            <li><a href="#types">Tipos de Baterías</a>
+                <ul>
+                    <li><a href="#type1">Baterías Alcalinas</a></li>
+                    <li><a href="#type2">Baterías de Litio</a></li>
+                    <li><a href="#type3">Baterías Recargables</a></li>
+                </ul>
+            </li>
+            <li><a href="#usage">Uso Correcto</a></li>
+            <li><a href="#testimonials">Testimonios</a></li>
+            <li><a href="#contact">Contacto</a></li>
+        </ul>
+    </nav>
+</header>
+<section class="hero">
+    <h1>Todo sobre Baterías</h1>
+    <p>Descubre los diferentes tipos y cómo utilizarlas correctamente</p>
+    <button>Aprende Más</button>
+</section>
+<section id="types" class="types">
+    <h2>Tipos de Baterías</h2>
+    <div id="type1" class="type">
+        <h3>Baterías Alcalinas</h3>
+        <p>Las baterías alcalinas son las más comunes y se utilizan en dispositivos de baja a moderada descarga.</p>
+    </div>
+    <div id="type2" class="type">
+        <h3>Baterías de Litio</h3>
+        <p>Las baterías de litio son ligeras y tienen una alta densidad de energía, ideales para dispositivos electrónicos portátiles.</p>
+    </div>
+    <div id="type3" class="type">
+        <h3>Baterías Recargables</h3>
+        <p>Las baterías recargables son ecológicas y pueden ser reutilizadas muchas veces, siendo perfectas para dispositivos de uso frecuente.</p>
+    </div>
+</section>
+<section id="usage" class="usage">
+    <h2>Uso Correcto de Baterías</h2>
+    <div class="usage-tip">
+        <h3>Consejo 1</h3>
+        <p>Utiliza el tipo de batería adecuado para cada dispositivo para garantizar un rendimiento óptimo.</p>
+    </div>
+    <div class="usage-tip">
+        <h3>Consejo 2</h3>
+        <p>Almacena las baterías en un lugar fresco y seco para prolongar su vida útil.</p>
+    </div>
+    <div class="usage-tip">
+        <h3>Consejo 3</h3>
+        <p>Recarga las baterías recargables completamente antes de usarlas para maximizar su capacidad.</p>
+    </div>
+</section>
+<section id="testimonials" class="testimonials">
+    <h2>Testimonios</h2>
+    <div class="testimonial">
+        <p>"Las baterías de litio cambiaron la forma en que uso mis dispositivos portátiles. Son ligeras y duran mucho más."</p>
+        <p>- Juan Pérez</p>
+    </div>
+    <div class="testimonial">
+        <p>"Desde que uso baterías recargables, he ahorrado mucho dinero y contribuyo menos al desperdicio."</p>
+        <p>- Ana Gómez</p>
+    </div>
+    <div class="testimonial">
+        <p>"Las baterías alcalinas son perfectas para mis mandos a distancia y otros dispositivos de baja demanda."</p>
+        <p>- Carlos López</p>
+    </div>
+</section>
+<section id="contact" class="contact">
+    <h2>Contacto</h2>
+    <form>
+        <input type="text" placeholder="Nombre" required>
+        <input type="email" placeholder="Correo electrónico" required>
+        <textarea placeholder="Mensaje" rows="5" required></textarea>
+        <button type="submit">Enviar</button>
+    </form>
+</section>
+<footer>
+    <p>&copy; 2024 Todo sobre Baterías. Todos los derechos reservados.</p>
+</footer>
+</body>
+</html> 
